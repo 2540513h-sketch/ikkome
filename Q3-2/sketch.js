@@ -25,9 +25,26 @@ function draw(){
   rect(0, groundY, width, height - groundY);
 
   // BLANK[1] キャラクターの左右移動
+vx = 0;
+  if (keyIsDown(RIGHT_ARROW)) {
+    vx = 3;
+  }
 
+  if (keyIsDown(LEFT_ARROW)) {
+    vx = -3;
+  }
+  if (keyIsDown(SHIFT)) {
+    vx = vx * 2;
+  }
   // BLANK[2] 重力とジャンプ
-
+  vy += g;
+  if (y + size / 2 >= groundY) {
+    y = groundY - size / 2;//地面のちょうど上に戻す
+    vy = 0;//落ちるのをやめさせる
+    if (keyIsDown(' ')) {
+      vy = -20;
+    }
+  }
   // 速くなりすぎないように制限
   vx = constrain(vx, -20, 20);
   vy = constrain(vy, -20, 20);
@@ -35,7 +52,6 @@ function draw(){
   // 位置を更新
   x += vx;
   y += vy;
-
   // キャラクターを描く
   fill(0);
   ellipse(x, y, size, size);
